@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
 
+use App\Http\Controllers\API\RegisterController;
+use App\Http\Controllers\API\ProductController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,3 +26,10 @@ Route::post("create-student", [StudentController::class, "saveStudent"]);
 Route::get("students", [StudentController::class, "getStudents"]);
 Route::get("student/{id}", [StudentController::class, "studentDetail"]);
 Route::delete("student/{id}", [StudentController::class, "deleteStudent"]);
+
+//api authentication by passport
+Route::post('register', [RegisterController::class, 'register']);
+Route::post('login', [RegisterController::class, 'login']);
+Route::middleware('auth:api')->group(function() {
+    Route::resource('products', ProductController::class);
+});
